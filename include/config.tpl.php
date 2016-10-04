@@ -1,5 +1,7 @@
 <?php
-if (! defined('ANTI_HACK')){exit;}
+if (!defined('ANTI_HACK')) {
+	exit;
+}
 /*****************
  * Configuration *
  * Copy this file as 'config.php' and fill parameters

@@ -28,13 +28,17 @@
 // 20/09/2015 :  Don't set config environment if init in progress
 //================================================================
 // Anti-hack
-if (! defined('ANTI_HACK')){exit;}
+if (!defined('ANTI_HACK')) {
+	exit;
+}
 
 // Load config if init not in progress
-if (! defined('INIT')){include "include/config.php";}
+if (!defined('INIT')) {
+	include "include/config.php";
+}
 
 // Load translations
-$trs = json_decode(implode(file('include/text_'.$lang.'.json')),true);
+$trs = json_decode(implode(file('include/text_' . $lang . '.json')), true);
 
 //-- API Class
 class HueAPI {
@@ -47,7 +51,7 @@ class HueAPI {
 	//=====================================
 	//== CONSTRUCTOR ==
 	//=====================================
-	function __construct(){
+	function __construct() 	{
 		global $bridgeip, $username;
 		$this->apiurl = "http://$bridgeip/api/$username";
 	} // __construct
@@ -62,16 +66,17 @@ class HueAPI {
 	// Return a json string
 	// Array info is loaded
 	//-------------------------------------
-	function loadInfo($action){
+	function loadInfo($action)
+	{
 		$json_info = $this->getInfo($action);
 
 		// Store info array with action result
-		$ar_action = explode("/",$action);
+		$ar_action = explode("/", $action);
 		$current_info = &$this->info;
-		foreach($ar_action as $key){
+		foreach ($ar_action as $key) {
 			$current_info = &$current_info[$key];
 		}
-		$current_info = json_decode($json_info,true);
+		$current_info = json_decode($json_info, true);
 
 		return $json_info;
 	} // loadInfo
@@ -82,11 +87,11 @@ class HueAPI {
 	// Param : argument to pass to api url, command data in an array or json [, send method (default=PUT)]
 	// Return : cmd result in an array or json, depending on input content type
 	//-------------------------------------
-	function setInfo($action,$content,$method="PUT"){
-		if (is_array($content))	{
-			return json_decode($this->sendCmd($action,json_encode($content),$method),true);
+	function setInfo($action, $content, $method = "PUT")	{
+		if (is_array($content)) {
+			return json_decode($this->sendCmd($action, json_encode($content), $method), true);
 		} else {
-			return $this->sendCmd($action,$content,$method);
+			return $this->sendCmd($action, $content, $method);
 		}
 	} // setInfo
 
@@ -99,9 +104,11 @@ class HueAPI {
 	// Updating the lights info will delete the grp id.
 	// If several groups exist for a light, only the biggest id is recorded
 	//-------------------------------------
-	function assignLightsGroup(){
-		foreach ($this->info['groups'] as $gnum => $gval){
-			foreach ($gval['lights'] as $internal => $lnum){$this->info['lights'][$lnum]['grp'] = $gnum;}
+	function assignLightsGroup()	{
+		foreach ($this->info['groups'] as $gnum => $gval) {
+			foreach ($gval['lights'] as $internal => $lnum) {
+				$this->info['lights'][$lnum]['grp'] = $gnum;
+			}
 		}
 	} // assignLightsGroup
 
@@ -114,7 +121,7 @@ class HueAPI {
 	// Param : argument to pass to api url
 	// Return : json with the requested content
 	//-------------------------------------
-	private function getInfo($action){
+	private function getInfo($action)	{
 		return @file("$this->apiurl/$action")[0];
 	} // getInfo
 
@@ -124,14 +131,14 @@ class HueAPI {
 	// Param : argument to pass to api url, command data in an array or json, send method
 	// Return : json response
 	//-------------------------------------
-	private function sendCmd($action,$content_js,$method){
-		$context = array('http'=>array(
-                   	'method'=>$method,
-                   	'header'=>'Content-type: application/x-www-form-urlencoded',
-					'content'=>$content_js
-                	)
-				);
-		return @file("$this->apiurl/$action",false,stream_context_create($context))[0]; 
+	private function sendCmd($action, $content_js, $method)	{
+		$context = array('http' => array(
+			'method' => $method,
+			'header' => 'Content-type: application/x-www-form-urlencoded',
+			'content' => $content_js
+		)
+		);
+		return @file("$this->apiurl/$action", false, stream_context_create($context))[0];
 	} // sendCmd
 }// HueAPI
 

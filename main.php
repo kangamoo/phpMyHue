@@ -11,12 +11,11 @@ define('ANTI_HACK', true);
 
 include 'include/hueapi.php';
 
-@$rt=$_REQUEST['rt'];
+@$rt = $_REQUEST['rt'];
 
 header('Content-Type: text/html; charset=UTF-8'); // to correctly display translation
 
-switch ($rt)
-{
+switch ($rt) {
 // Screens
 	case "lights" :
 		include 'include/lights.php';
@@ -45,19 +44,19 @@ switch ($rt)
 		include 'include/huecolor.php';
 		$lnum = $_REQUEST['lnum'];
 
-		$js=$HueAPI->loadInfo("lights/$lnum");
+		$js = $HueAPI->loadInfo("lights/$lnum");
 
-		if ($rt == "switch"){
+		if ($rt == "switch") {
 			$action = "lights/$lnum/state";
 			$state = &$HueAPI->info['lights'][$lnum]['state'];
-			if ($state['on'] == ""){
+			if ($state['on'] == "") {
 				$state['on'] = true;
-				$cmd_array = array('on'=>true);
+				$cmd_array = array('on' => true);
 			} else {
 				$state['on'] = "";
-				$cmd_array = array('on'=>false);
+				$cmd_array = array('on' => false);
 			}
-			$HueAPI->setInfo($action,$cmd_array);
+			$HueAPI->setInfo($action, $cmd_array);
 		}
 
 		display_light($lnum);

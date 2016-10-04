@@ -3,7 +3,9 @@
 // F. Bardin 07/02/2015
 //-----------------------------------
 // Anti-hack
-if (! defined('ANTI_HACK')){exit;}
+if (!defined('ANTI_HACK')) {
+	exit;
+}
 
 include 'include/functions.php';
 
@@ -14,14 +16,14 @@ $HueAPI->assignLightsGroup();
 
 ?>
 <SCRIPT language="javascript">
-$('#detail').hide("slide");
+	$('#detail').hide("slide");
 </SCRIPT>
 <?php
 display_lights_groups();
 ?>
 <SCRIPT TYPE="text/javascript" SRC="js/lights.js"></SCRIPT>
 <SCRIPT language="javascript">
-$('#allon, #alloff, #tabs button.gron, #tabs button.groff, #otheron, #otheroff').button();
-lightsTab(); // keep in last position after object initialization
+	$('#allon, #alloff, #tabs button.gron, #tabs button.groff, #otheron, #otheroff').button();
+	lightsTab(); // keep in last position after object initialization
 </SCRIPT>
 
